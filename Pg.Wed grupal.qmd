@@ -1,0 +1,195 @@
+---
+title: "Pg. Web grupal"
+author: "Noelia, Alexandra, Diomer, Luis, Nixon, Carmen"
+format: html
+editor: visual
+toc: true
+toc-location: left
+number-sections: true
+embed-resources: true
+output-file: index
+---
+
+# Grupo 6: Trabajo final de Unidad II
+
+## Integrantes del grupo: 
+
+Bustamante López Noelia Patricia
+
+Cubas Vasquez Luis Alberto
+
+Goicochea Gonzáles Alexandra Lucía
+
+Mendoza Huaman Diomer
+
+Palacios Tejedo Nixon
+
+Tarrillo Trujillano Carmen Rosa
+
+## Procedimiento
+
+1.  En GitHub, se creo un nuevo repositorio llamado `` ` ```Pg.-Web-grupal``` `. ``
+
+2.  En R se creo un nuevo proyecto denominado \`T.Unidad 2º Pg Web\`.
+
+3.  Vincular repositorio con el nuevo proyecto, ingresando los siguientes comandos en la terminal:
+
+    git init
+    git add README.md
+    git commit -m "primer commit"
+    git branch -M main
+    git remote add origin [https://github.com/Luis-cubas-cmd/Pg.-Web-grupal
+    ](https://github.com/Luis-cubas-cmd/Pg.-Web-grupal)git push -u origin main
+
+4.  Para actualizar el contenido de la pagina web, se ejecuntan los siguientes comandos en la terminal:
+
+    git add .
+    git commit -m "primer commit"
+    git push
+
+## Importación de base de datos
+
+```{r}
+source('https://inkaverse.com/setup.r')
+
+library(readxl)
+
+data <- read_excel("LA MOLINA 2014 POTATO WUE (FB).xlsx", sheet = "fb")
+```
+
+## Elección de variables 
+
+De la base de datos se han elegido las siguientes variables:
+
+Leaf Dry Weight (leafdw)
+
+Total Transpiration (ttrans)
+
+## Modelo lineal para la variable Leaf Dry Weight (leafdw) 
+
+A continuación, se realizará un análisis de varianza (ANOVA) utilizando el siguiente código en R:
+
+```{r}
+modelo1 <- aov(formula = leafdw ~ bloque + riego + geno + riego*geno, data= data)
+
+anova(modelo1)
+
+```
+
+Este análisis de varianza (ANOVA) evalúa los efectos de tres factores —el bloque, el nivel de riego y el genotipo (geno)— en el peso seco de las hojas ("Leaf Dry Weight" o leafdw), además de considerar la interacción entre riego y genotipo.
+
+### Interpretacion de resultados 
+
+#### BLOQUE
+
+No tuvo un efecto significativo en leafdw(F = 1.1810, p = 0.32286), lo que sugiere que las variaciones debidas a bloques son mínimas en comparación con los otros factores.
+
+#### RIEGO
+
+Tiene un efecto altamente significativo en el peso seco de las hojas (F = 192.6695, p \< 0.0000000000000002), indicando que el nivel de riego influye fuertemente en leafdw.
+
+#### GENOTIPO
+
+También muestra un efecto altamente significativo en leafdw(F = 31.4688, p \< 0.00000000000000002), lo que sugiere que diferentes genotipos afectan de manera significativa el peso seco de las hojas.
+
+#### INTERACCION RIEGO-GENOTIPO 
+
+Presenta un efecto significativo (F = 2.2332, p = 0.01023), lo que implica que el impacto del riego en el peso seco de las hojas varía según el genotipo.
+
+**En conjunto, el análisis sugiere que tanto el riego como el genotipo, además de su interacción, tienen efectos importantes en el peso seco de las hojas.**
+
+### Bloxplot
+
+El siguiente comando en R utiliza ggplot2 para crear un gráfico de caja ("boxplot") que muestra la distribución del peso seco de las hojas (leafdw) en función de cada genotipo (geno), diferenciando los niveles de riego (riego) mediante colores.
+
+```{r}
+ggplot(data, aes(x = geno, y = leafdw, colour = riego)) +
+  geom_boxplot(outlier.colour = "purple", outlier.shape = 16, outlier.size = 3) +
+  labs(title = "Boxplot por Nivel de Riego y Genotipo", x = "Combinación Riego-Genotipo", y = "Peso seco de las hojas (g)") +
+  theme_minimal() +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1))
+```
+
+### Descripcion de la grafica 
+
+**Eje X:** Representa los distintos genotipos (geno), con cada combinación de riego y genotipo agrupada en el eje horizontal.
+
+**Eje Y**: Indica el peso seco de las hojas (leafdw) en gramos.
+
+**Colores:** Diferencian los niveles de riego (riego), permitiendo una comparación visual entre los efectos del riego dentro de cada genotipo.
+
+**Puntos atípicos:** Los valores atípicos se muestran como puntos de color púrpura, con una forma circular y tamaño de 3, destacándose en cada grupo.
+
+**Título y Etiquetas:** El gráfico tiene un título claro, "Boxplot por Nivel de Riego y Genotipo," junto con etiquetas descriptivas para los ejes, especificando "Peso seco de las hojas (g)" en el eje Y y "Combinación Riego-Genotipo" en el eje X.
+
+**Estilo y Rotación de Texto:** Se aplica un tema minimalista (theme_minimal()) para mejorar la claridad visual del gráfico, y el texto del eje X se rota 45 grados para facilitar la lectura de las etiquetas.
+
+**Este gráfico permite visualizar de manera eficiente la variabilidad del peso seco de las hojas entre genotipos y cómo los diferentes niveles de riego influyen en esta variación.**
+
+### Interpretacion de la grafica
+
+X IMPLEMENTAR XD
+
+## Modelo lineal para la variable transpiracion total (ttrans)
+
+A continuación, se realizará un análisis de varianza (ANOVA) utilizando el siguiente código en R:
+
+```{r}
+modelo2 <- aov(formula = ttrans ~ bloque + riego + geno + riego*geno, data= data)  
+anova(modelo2) 
+```
+
+### Interpretacion de resultados 
+
+#### BLOQUE
+
+Tiene un efecto significativo en la transpiración total (ttrans) (F = 3.4162, p = 0.01114), lo cual sugiere que hay una variación en la transpiración entre bloques.
+
+#### RIEGO
+
+Muestra un efecto altamente significativo en la transpiración (F = 325.3217, p \< 0.0000000000000002), lo que indica que el nivel de riego tiene un impacto considerable sobre la transpiración total.
+
+#### GENO
+
+También tiene un efecto altamente significativo en ttrans (F = 15.1897, p \< 0.0000000000000002), lo cual sugiere que el genotipo influye fuertemente en la cantidad de transpiración.
+
+**Interacción riego-genotipo**
+
+La interacción entre riego y genotipo tiene un efecto moderadamente significativo (F = 1.6585, p = 0.07398), indicando que el efecto del riego en la transpiración puede variar según el genotipo, aunque la significancia es más baja en comparación con los efectos principales de riego y genotipo.
+
+**El análisis muestra que el nivel de riego y el genotipo tienen efectos importantes y altamente significativos en la transpiración total, con una interacción entre ambos factores que sugiere una variación moderada en cómo el riego afecta a diferentes genotipos.**
+
+### Bloxplot
+
+```{r}
+ggplot(data, aes(x = geno, y = ttrans, colour = riego)) +
+  geom_boxplot(outlier.colour = "orange", outlier.shape = 16, outlier.size = 3) +
+  labs(title = "Boxplot por Nivel de Riego y Genotipo", x = "Combinación Riego-Genotipo", y = "Transpiracion total (l)") +
+  theme_minimal() +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1))
+```
+
+### Interpretacion de la tabla
+
+Falta hacer csmr
+
+## Modelo lineal mixto para la variable  Leaf Dry Weight (leafdw)
+
+```{r}
+
+library(lme4)
+
+modelo1_mixto <- lmer(leafdw ~ riego * geno + (1 | bloque), data = data)
+
+summary(modelo1_mixto)
+
+anova(modelo1_mixto)
+```
+
+## Analisis de varianza (ANOVA)
+
+```{r}
+modelo <- aov(ttrans ~ riego * geno + leafdw * riego * geno, data = data)
+
+summary(modelo)
+```
