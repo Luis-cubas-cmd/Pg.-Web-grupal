@@ -12,7 +12,7 @@ output-file: index
 
 # Grupo 6: Trabajo final de Unidad II
 
-## Integrantes del grupo: 
+## Integrantes del grupo:
 
 Bustamante López Noelia Patricia
 
@@ -28,24 +28,17 @@ Tarrillo Trujillano Carmen Rosa
 
 ## Procedimiento
 
-1.  En GitHub, se creo un nuevo repositorio llamado `` ` ```Pg.-Web-grupal``` `. ``
+1.  En GitHub, se creo un nuevo repositorio llamado ```` ` ```Pg.-Web-grupal``` `. ````
 
 2.  En R se creo un nuevo proyecto denominado \`T.Unidad 2º Pg Web\`.
 
 3.  Vincular repositorio con el nuevo proyecto, ingresando los siguientes comandos en la terminal:
 
-    git init
-    git add README.md
-    git commit -m "primer commit"
-    git branch -M main
-    git remote add origin [https://github.com/Luis-cubas-cmd/Pg.-Web-grupal
-    ](https://github.com/Luis-cubas-cmd/Pg.-Web-grupal)git push -u origin main
+    git init git add README.md git commit -m "primer commit" git branch -M main git remote add origin <https://github.com/Luis-cubas-cmd/Pg.-Web-grupal>git push -u origin main
 
 4.  Para actualizar el contenido de la pagina web, se ejecuntan los siguientes comandos en la terminal:
 
-    git add .
-    git commit -m "primer commit"
-    git push
+    git add . git commit -m "primer commit" git push
 
 ## Importación de base de datos
 
@@ -57,7 +50,7 @@ library(readxl)
 data <- read_excel("LA MOLINA 2014 POTATO WUE (FB).xlsx", sheet = "fb")
 ```
 
-## Elección de variables 
+## Elección de variables
 
 De la base de datos se han elegido las siguientes variables:
 
@@ -65,7 +58,7 @@ Leaf Dry Weight (leafdw)
 
 Total Transpiration (ttrans)
 
-## Modelo lineal para la variable Leaf Dry Weight (leafdw) 
+## Modelo lineal para la variable Leaf Dry Weight (leafdw)
 
 A continuación, se realizará un análisis de varianza (ANOVA) utilizando el siguiente código en R:
 
@@ -78,7 +71,7 @@ anova(modelo1)
 
 Este análisis de varianza (ANOVA) evalúa los efectos de tres factores —el bloque, el nivel de riego y el genotipo (geno)— en el peso seco de las hojas ("Leaf Dry Weight" o leafdw), además de considerar la interacción entre riego y genotipo.
 
-### Interpretacion de resultados 
+### Interpretacion de resultados
 
 #### BLOQUE
 
@@ -92,11 +85,15 @@ Tiene un efecto altamente significativo en el peso seco de las hojas (F = 192.66
 
 También muestra un efecto altamente significativo en leafdw(F = 31.4688, p \< 0.00000000000000002), lo que sugiere que diferentes genotipos afectan de manera significativa el peso seco de las hojas.
 
-#### INTERACCION RIEGO-GENOTIPO 
+#### INTERACCION RIEGO-GENOTIPO
 
 Presenta un efecto significativo (F = 2.2332, p = 0.01023), lo que implica que el impacto del riego en el peso seco de las hojas varía según el genotipo.
 
 **En conjunto, el análisis sugiere que tanto el riego como el genotipo, además de su interacción, tienen efectos importantes en el peso seco de las hojas.**
+
+```{r}
+plot(modelo1)
+```
 
 ### Bloxplot
 
@@ -110,7 +107,7 @@ ggplot(data, aes(x = geno, y = leafdw, colour = riego)) +
   theme(axis.text.x = element_text(angle = 45, hjust = 1))
 ```
 
-### Descripcion de la grafica 
+### Descripcion de la grafica
 
 **Eje X:** Representa los distintos genotipos (geno), con cada combinación de riego y genotipo agrupada en el eje horizontal.
 
@@ -139,7 +136,7 @@ modelo2 <- aov(formula = ttrans ~ bloque + riego + geno + riego*geno, data= data
 anova(modelo2) 
 ```
 
-### Interpretacion de resultados 
+### Interpretacion de resultados
 
 #### BLOQUE
 
@@ -159,6 +156,10 @@ La interacción entre riego y genotipo tiene un efecto moderadamente significati
 
 **El análisis muestra que el nivel de riego y el genotipo tienen efectos importantes y altamente significativos en la transpiración total, con una interacción entre ambos factores que sugiere una variación moderada en cómo el riego afecta a diferentes genotipos.**
 
+```{r}
+plot(modelo2)
+```
+
 ### Bloxplot
 
 ```{r}
@@ -173,7 +174,7 @@ ggplot(data, aes(x = geno, y = ttrans, colour = riego)) +
 
 Falta hacer csmr
 
-## Modelo lineal mixto para la variable  Leaf Dry Weight (leafdw)
+## Modelo lineal mixto para la variable Leaf Dry Weight (leafdw)
 
 ```{r}
 
@@ -181,15 +182,183 @@ library(lme4)
 
 modelo1_mixto <- lmer(leafdw ~ riego * geno + (1 | bloque), data = data)
 
-summary(modelo1_mixto)
-
 anova(modelo1_mixto)
 ```
 
-## Analisis de varianza (ANOVA)
+### Interpretacion de resultados
+
+**riego:** Tiene un efecto altamente significativo (F = 192.6695), lo que indica que el nivel de riego influye de manera considerable en la variable de respuesta. La suma de cuadrados (Sum Sq = 1065.87) muestra que este factor explica una gran parte de la variación en los datos.
+
+**geno:** También muestra un efecto significativo (F = 31.4688), lo que sugiere que diferentes genotipos afectan significativamente la variable de respuesta. Su suma de cuadrados (Sum Sq = 2437.24) indica que el genotipo es un factor importante en la variabilidad observada.
+
+**interacción entre riego y genotipo:** La interacción entre riego y genotipo tiene un efecto significativo (F = 2.2332), aunque menos fuerte que los efectos principales de riego y genotipo. Esto sugiere que el efecto del riego sobre la variable de respuesta varía en función del genotipo, lo cual podría indicar que ciertos genotipos responden de manera diferente a los niveles de riego
+
+**El modelo sugiere que tanto el riego como el genotipo tienen efectos importantes en la variable de respuesta, con una interacción significativa que indica que la respuesta al riego depende del genotipo específico.**
 
 ```{r}
-modelo <- aov(ttrans ~ riego * geno + leafdw * riego * geno, data = data)
+plot(modelo1)
+```
 
-summary(modelo)
+## Bloxplot
+
+```{r}
+ol <- boxplot( leafdw ~ riego * geno, data)
+```
+
+```{r}
+library(inti)
+modelo1 <- remove_outliers(data = data
+                         ,formula = leafdw ~ riego + geno + riego * geno+ (1 | bloque)
+                         , plot_diag = T
+                         )
+modelo1
+```
+
+## Modelo lineal mixto para la variable (ttrans)
+
+```{r}
+modelo2_mixto <- lmer(ttrans ~ riego * geno + (1 | bloque), data = data)
+
+anova(modelo2_mixto)
+```
+
+### Interpretacion de resultados
+
+Falta hacer
+
+```{r}
+plot(modelo2)
+```
+
+## Boxplot
+
+```{r}
+ol <- boxplot( ttrans ~ riego * geno, data)
+```
+
+```{r}
+modelo2 <- remove_outliers(data = data
+                         ,formula = ttrans ~ riego + geno + riego * geno+ (1 | bloque)
+                         , plot_diag = T
+                         )
+modelo2
+```
+
+## **Comparación de medias**
+
+```{r}
+modelo1 <- lm(formula = leafdw ~ bloque + riego + geno + riego * geno, data = data)
+
+anova(modelo1)
+```
+
+```{r}
+library(agricolae)
+tukey_result <- HSD.test(modelo1, c("geno", "riego"), group = TRUE)
+print(tukey_result)
+```
+
+```{r}
+plot(tukey_result)
+```
+
+# **Prueba de Tukey**
+
+```{r}
+# Test de Tukey para el factor riego
+tukey_riego <- HSD.test(modelo1, "riego", group = TRUE)
+print (tukey_riego)
+# Test de Tukey para el factor geno
+tukey_geno <- HSD.test(modelo1, "geno", group = TRUE)
+print(tukey_geno)
+# Test de Tukey para la interacción riego:geno
+tukey_interaccion <- HSD.test(modelo1,c("riego", "geno"), group = TRUE) 
+print(tukey_interaccion)
+
+mc <- tukey_interaccion$groups%>%
+  rownames_to_column("tr at")%>%
+  separate(`tr at`, c("riego", "geno"))
+str(mc)
+```
+
+## Boxplot
+
+```{r}
+ggplot(mc, aes(x = geno, y = leafdw, fill = riego)) + 
+  geom_bar(stat = "identity", position = position_dodge()) + 
+  geom_text(aes(label = groups), position = position_dodge(0.9), vjust = -0.5) + 
+  labs(x = "variedad", y = "leafdw", fill = "Riego") + 
+  theme_minimal() + 
+  theme(axis.text.x = element_text(angle = 45, hjust = 1))
+```
+
+# **Comparación de medias: emmeans:**
+
+```{r}
+mc <- emmeans(modelo1, ~ riego * geno )
+mc
+mc <- emmeans(modelo1, ~ geno | riego )
+mc
+mc <- emmeans(modelo1, ~ riego | geno)%>%
+  
+  as.data.frame()
+
+  mc
+```
+
+## BLoxplot
+
+```{r}
+ggplot(mc, aes(x = geno, y = emmean, fill = riego)) + 
+  geom_bar(stat = "identity", position = position_dodge()) + 
+  # geom_text(aes(label = groups), position = position_dodge(0.9), vjust = -0.5) + 
+  labs(x = "variedad", y = "leafdw", fill = "Riego") + 
+  theme_minimal() + 
+  theme(axis.text.x = element_text(angle = 45, hjust = 1))
+```
+
+# **Analisis multivariado**
+
+### Correlacion
+
+```{r}
+library(tidyverse)
+library(psych)
+
+data %>%
+  select_if(is.numeric) %>% 
+  dplyr::select(!c("block")) %>%
+                   pairs.panels(x = .
+             , hist.col="red"
+             , pch = 21
+             , stars = TRUE
+             , scale = FALSE
+             , lm = TRUE
+             )
+```
+
+## **Análisis de componentes principales PCA**
+
+```{r}
+
+library(FactoMineR)
+
+mm1 <- data %>% 
+  group_by(riego, geno) %>% 
+  summarise(across(where(is.numeric), ~ mean(., na.rm = TRUE))) %>% 
+  PCA(scale.unit = T, quali.sup = c(1:4), graph = F)
+
+
+p1 <- plot(mm1
+     , choix="ind"
+     , habillage=1
+     , label = "ind"
+     )
+
+
+p2 <- plot(mm1
+     , choix="var")
+
+list(p1, p2) %>% 
+  plot_grid(plotlist = ., nrow = 1)
 ```
