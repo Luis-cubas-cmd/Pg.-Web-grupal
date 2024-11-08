@@ -10,9 +10,9 @@ embed-resources: true
 output-file: index
 ---
 
-# Grupo 6: Trabajo final de Unidad II
+**Grupo 6: Trabajo final de Unidad II**
 
-## Integrantes del grupo:
+**Integrantes del grupo:**
 
 Bustamante López Noelia Patricia
 
@@ -26,7 +26,7 @@ Palacios Tejedo Nixon
 
 Tarrillo Trujillano Carmen Rosa
 
-## Procedimiento
+# Procedimiento
 
 1.  En GitHub, se creo un nuevo repositorio llamado ```` ` ```Pg.-Web-grupal``` `. ````
 
@@ -40,7 +40,7 @@ Tarrillo Trujillano Carmen Rosa
 
     git add . git commit -m "primer commit" git push
 
-## Importación de base de datos
+# Importación de base de datos
 
 ```{r}
 source('https://inkaverse.com/setup.r')
@@ -57,6 +57,8 @@ De la base de datos se han elegido las siguientes variables:
 Leaf Dry Weight (leafdw)
 
 Total Transpiration (ttrans)
+
+# Modelo lineales
 
 ## Modelo lineal para la variable Leaf Dry Weight (leafdw)
 
@@ -95,7 +97,7 @@ Presenta un efecto significativo (F = 2.2332, p = 0.01023), lo que implica que e
 plot(modelo1)
 ```
 
-### Bloxplot
+## Bloxplot
 
 El siguiente comando en R utiliza ggplot2 para crear un gráfico de caja ("boxplot") que muestra la distribución del peso seco de las hojas (leafdw) en función de cada genotipo (geno), diferenciando los niveles de riego (riego) mediante colores.
 
@@ -173,6 +175,8 @@ ggplot(data, aes(x = geno, y = ttrans, colour = riego)) +
 ### Interpretacion de la tabla
 
 Falta hacer csmr
+
+# Modelos lineales mixtos
 
 ## Modelo lineal mixto para la variable Leaf Dry Weight (leafdw)
 
@@ -306,7 +310,7 @@ mc <- emmeans(modelo1, ~ riego | geno)%>%
   mc
 ```
 
-## BLoxplot
+## Bloxplot
 
 ```{r}
 ggplot(mc, aes(x = geno, y = emmean, fill = riego)) + 
@@ -319,7 +323,7 @@ ggplot(mc, aes(x = geno, y = emmean, fill = riego)) +
 
 # **Analisis multivariado**
 
-### Correlacion
+## Correlacion
 
 ```{r}
 library(tidyverse)
