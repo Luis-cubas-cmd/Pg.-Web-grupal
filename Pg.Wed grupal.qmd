@@ -102,6 +102,7 @@ plot(modelo1)
 El siguiente comando en R utiliza ggplot2 para crear un gráfico de caja ("boxplot") que muestra la distribución del peso seco de las hojas (leafdw) en función de cada genotipo (geno), diferenciando los niveles de riego (riego) mediante colores.
 
 ```{r}
+library(ggplot2)
 ggplot(data, aes(x = geno, y = leafdw, colour = riego)) +
   geom_boxplot(outlier.colour = "purple", outlier.shape = 16, outlier.size = 3) +
   labs(title = "Boxplot por Nivel de Riego y Genotipo", x = "Combinación Riego-Genotipo", y = "Peso seco de las hojas (g)") +
@@ -124,10 +125,6 @@ ggplot(data, aes(x = geno, y = leafdw, colour = riego)) +
 **Estilo y Rotación de Texto:** Se aplica un tema minimalista (theme_minimal()) para mejorar la claridad visual del gráfico, y el texto del eje X se rota 45 grados para facilitar la lectura de las etiquetas.
 
 **Este gráfico permite visualizar de manera eficiente la variabilidad del peso seco de las hojas entre genotipos y cómo los diferentes niveles de riego influyen en esta variación.**
-
-### Interpretacion de la grafica
-
-X IMPLEMENTAR XD
 
 ## Modelo lineal para la variable transpiracion total (ttrans)
 
@@ -165,16 +162,13 @@ plot(modelo2)
 ### Bloxplot
 
 ```{r}
+library(ggplot2)
 ggplot(data, aes(x = geno, y = ttrans, colour = riego)) +
   geom_boxplot(outlier.colour = "orange", outlier.shape = 16, outlier.size = 3) +
   labs(title = "Boxplot por Nivel de Riego y Genotipo", x = "Combinación Riego-Genotipo", y = "Transpiracion total (l)") +
   theme_minimal() +
   theme(axis.text.x = element_text(angle = 45, hjust = 1))
 ```
-
-### Interpretacion de la tabla
-
-Falta hacer csmr
 
 # Modelos lineales mixtos
 
