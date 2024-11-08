@@ -220,10 +220,6 @@ modelo2_mixto <- lmer(ttrans ~ riego * geno + (1 | bloque), data = data)
 anova(modelo2_mixto)
 ```
 
-### Interpretacion de resultados
-
-Falta hacer
-
 ```{r}
 plot(modelo2)
 ```
